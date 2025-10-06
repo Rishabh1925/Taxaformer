@@ -1,24 +1,17 @@
 #!/usr/bin/env python3
 """
-eDNA Analysis API Startup Script
+Production startup script for Taxaformer API
 """
-
-import uvicorn
-import sys
 import os
-
-# Add the current directory to Python path
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+import uvicorn
 
 if __name__ == "__main__":
-    print("🧬 Starting eDNA Analysis API...")
-    print("📊 API Documentation will be available at: http://localhost:8000/docs")
-    print("🔬 Interactive API at: http://localhost:8000/redoc")
-    
+    port = int(os.environ.get("PORT", 8000))
     uvicorn.run(
         "main:app",
         host="0.0.0.0",
-        port=8000,
-        reload=True,
+        port=port,
+        reload=False,
+        workers=1,
         log_level="info"
     )

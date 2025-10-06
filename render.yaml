@@ -1,0 +1,29 @@
+services:
+  # Backend API Service
+  - type: web
+    name: taxaformer-api
+    env: python
+    region: oregon
+    buildCommand: cd backend && pip install -r requirements.txt
+    startCommand: cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.9.18
+      - key: PORT
+        value: 10000
+    autoDeploy: true
+    
+  # ML Backend Service (Optional - if you want to deploy ML pipeline separately)
+  - type: web
+    name: taxaformer-ml
+    env: python
+    region: oregon
+    buildCommand: cd ML_backend && pip install -r requirements.txt
+    startCommand: cd ML_backend && python oceaneye_pipeline_real.py
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.9.18
+      - key: PORT
+        value: 10001
+    autoDeploy: false
