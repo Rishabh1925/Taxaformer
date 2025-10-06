@@ -51,8 +51,9 @@
     },
     build: {
       target: 'esnext',
-      outDir: 'build',
+      outDir: 'dist',
     },
+    base: '/Taxaformer/',
     server: {
       port: 3000,
       open: true,

@@ -8,7 +8,7 @@
         "type": "git",
         "url": "https://github.com/Shaurya-Sinha3301/Taxaformer.git"
       },
-      "homepage": "https://github.com/Shaurya-Sinha3301/Taxaformer#readme",
+      "homepage": "https://shaurya-sinha3301.github.io/Taxaformer",
       "keywords": ["edna", "biodiversity", "machine-learning", "bioinformatics", "react", "typescript"],
       "private": false,
       "dependencies": {
@@ -69,6 +69,7 @@
       },
       "scripts": {
             "dev": "vite",
-            "build": "vite build"
+            "build": "vite build",
+            "preview": "vite preview"
       }
 }
