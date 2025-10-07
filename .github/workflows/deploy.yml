@@ -24,7 +24,10 @@ jobs:
       run: npm ci
       
     - name: Build
-      run: npm run build
+      run: npm run build:github
+      env:
+        VITE_API_BASE_URL: https://taxaformer-1.onrender.com
+        VITE_ML_API_URL: https://taxaformer-1.onrender.com
       
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3

@@ -148,17 +148,55 @@ VITE_ML_API_URL=http://localhost:8001
 
 ## 🚀 Deployment
 
-### Frontend (Vercel/Netlify)
+### Live Demo
+- **Frontend**: [GitHub Pages](https://shaurya-sinha3301.github.io/Taxaformer)
+- **Backend API**: [https://taxaformer-1.onrender.com](https://taxaformer-1.onrender.com)
+
+### Deployment Options
+
+#### 1. GitHub Pages (Recommended)
 ```bash
-npm run build
-# Deploy the 'build' directory
+# Build for GitHub Pages
+npm run build:github
+
+# Deploy using GitHub Actions (automatic on push to main)
+# Or manually deploy
+npm run deploy
 ```
 
-### Backend (Docker)
+#### 2. Vercel
 ```bash
+# Build for Vercel
+npm run build:vercel
+
+# Deploy to Vercel (automatic with Git integration)
+vercel --prod
+```
+
+#### 3. Local Development
+```bash
+# Start frontend
+npm run dev
+
+# Start backend (in separate terminal)
 cd backend
-docker build -t taxaformer-api .
-docker run -p 8000:8000 taxaformer-api
+python main.py
+```
+
+### Environment Configuration
+
+#### Production Environment Variables
+```env
+VITE_API_BASE_URL=https://taxaformer-1.onrender.com
+VITE_ML_API_URL=https://taxaformer-1.onrender.com
+NODE_ENV=production
+```
+
+#### Development Environment Variables
+```env
+VITE_API_BASE_URL=http://localhost:8000
+VITE_ML_API_URL=http://localhost:8001
+NODE_ENV=development
 ```
 
 ## 🤝 Contributing

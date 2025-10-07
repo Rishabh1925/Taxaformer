@@ -1,0 +1,61 @@
+# Dependencies
+node_modules
+.pnp
+.pnp.js
+
+# Testing
+coverage
+
+# Production build (will be built on Vercel)
+dist
+build
+
+# Environment files
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Backend files (not needed for frontend deployment)
+backend/
+ML_backend/
+*.py
+requirements*.txt
+render.yaml
+Dockerfile
+
+# Development files
+test-backend-connection.js
+test_data_flow.js
+
+# Git
+.git/
+.gitignore
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Documentation (optional, can be included)
+DEPLOYMENT_GUIDE.md
+DEPLOYMENT.md
+deploy.md
+CONTRIBUTING.md

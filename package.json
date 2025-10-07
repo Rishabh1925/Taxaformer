@@ -70,6 +70,11 @@
       "scripts": {
             "dev": "vite",
             "build": "vite build",
-            "preview": "vite preview"
+            "build:prod": "set NODE_ENV=production && vite build",
+            "build:github": "vite build --base=/Taxaformer/",
+            "build:vercel": "vite build --mode production",
+            "preview": "vite preview",
+            "predeploy": "npm run build:github",
+            "deploy": "gh-pages -d dist"
       }
 }

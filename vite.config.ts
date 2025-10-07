@@ -53,7 +53,7 @@
       target: 'esnext',
       outDir: 'dist',
     },
-    base: '/Taxaformer/',
+    base: '/',
     server: {
       port: 3000,
       open: true,
