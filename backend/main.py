@@ -18,8 +18,9 @@ app.add_middleware(
         "http://127.0.0.1:3001",
         "https://shaurya-sinha3301.github.io",
         "https://taxaformer.vercel.app",
-        "https://*.vercel.app",
-        "https://*.netlify.app"
+        "https://taxaformer-main.vercel.app",
+        "https://taxaformer-git-main-shaurya-sinha3301s-projects.vercel.app",
+        "https://taxaformer-shaurya-sinha3301s-projects.vercel.app"
     ],
     allow_credentials=True,
     allow_methods=["*"],
