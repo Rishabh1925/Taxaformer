@@ -191,6 +191,14 @@ class ApiService {
 
     return response.json();
   }
+
+  async getFungal28sAnalysis(): Promise<any> {
+    const response = await fetch(`${this.baseUrl}/analysis/fungal-28s`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch 28S fungal analysis');
+    }
+    return response.json();
+  }
 }
 
 export const apiService = new ApiService();

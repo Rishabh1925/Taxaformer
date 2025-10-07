@@ -5,7 +5,7 @@ import {
   Tooltip, Legend, BarChart, Bar, ScatterChart, Scatter, Cell, RadialBarChart, RadialBar,
   PieChart, Pie, ComposedChart, Treemap, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis
 } from 'recharts';
-import { FileText, Download, Filter, Calendar, TrendingUp, Users, File, Upload, Search, Eye, Database, Zap, MapPin, Clock, Award, BarChart3, Activity, Layers, Globe, ArrowUpDown, ChevronUp, ChevronDown, Loader2, X, CheckCircle, AlertCircle, FileUp, CloudUpload } from 'lucide-react';
+import { FileText, Download, Filter, Calendar, TrendingUp, Users, File, Upload, Search, Eye, Database, Zap, MapPin, Clock, Award, BarChart3, Activity, Layers, Globe, ArrowUpDown, ChevronUp, ChevronDown, Loader2, X, CheckCircle, AlertCircle, FileUp, CloudUpload, Microscope } from 'lucide-react';
 import { Button } from './ui/button';
 import { Card } from './ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
@@ -748,13 +748,41 @@ export function ReportsPage() {
               )}
             </div>
 
-            {/* Specialized Analysis Section */}
-            {analysisReport.specialized_analysis && (
-              <div className="space-y-6 mb-8">
-                <div className="flex items-center gap-3 mb-6">
-                  <Zap className="w-6 h-6 text-yellow-400" />
-                  <h3 className="text-2xl font-semibold text-white">Specialized Environmental Analysis</h3>
-                </div>
+            {/* Analysis Tabs */}
+            <Tabs defaultValue="overview" className="w-full">
+              <TabsList className="grid w-full grid-cols-3 bg-black/30 border border-white/10 rounded-2xl p-1">
+                <TabsTrigger 
+                  value="overview" 
+                  className="data-[state=active]:bg-white/10 data-[state=active]:text-white text-gray-400 rounded-xl transition-all duration-200"
+                >
+                  <BarChart3 className="w-4 h-4 mr-2" />
+                  Sample Analysis
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="fungal-28s" 
+                  className="data-[state=active]:bg-white/10 data-[state=active]:text-white text-gray-400 rounded-xl transition-all duration-200"
+                >
+                  <Microscope className="w-4 h-4 mr-2" />
+                  28S Fungal Analysis
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="comparison" 
+                  className="data-[state=active]:bg-white/10 data-[state=active]:text-white text-gray-400 rounded-xl transition-all duration-200"
+                >
+                  <TrendingUp className="w-4 h-4 mr-2" />
+                  Comparative Analysis
+                </TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="overview" className="mt-8">
+                <div className="space-y-8">
+                  {/* Specialized Analysis Section */}
+                  {analysisReport.specialized_analysis && (
+                    <div className="space-y-6 mb-8">
+                      <div className="flex items-center gap-3 mb-6">
+                        <Zap className="w-6 h-6 text-yellow-400" />
+                        <h3 className="text-2xl font-semibold text-white">Specialized Environmental Analysis</h3>
+                      </div>
                 
                 <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
                   {/* Key Findings Card */}
@@ -1567,19 +1595,23 @@ export function ReportsPage() {
                   )}
                 </div>
               </Card>
-            </div>
+                </div>
+              </TabsContent>
+
+              <TabsContent value="fungal-28s" className="mt-8">
+                <Fungal28sAnalysis />
+              </TabsContent>
+
+              <TabsContent value="comparison" className="mt-8">
+                <Card className="glass-panel p-12 border-0 text-center">
+                  <TrendingUp className="w-16 h-16 text-blue-400 mx-auto mb-4" />
+                  <h3 className="text-white text-xl mb-2">Comparative Analysis</h3>
+                  <p className="text-gray-400">Advanced comparative analysis features coming soon</p>
+                </Card>
+              </TabsContent>
+            </Tabs>
           </div>
         )}
-
-        {/* 28S Fungal Analysis Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.8 }}
-          className="mt-12"
-        >
-          <Fungal28sAnalysis />
-        </motion.div>
 
         {/* Upload Modal */}
         {showUploadModal && (

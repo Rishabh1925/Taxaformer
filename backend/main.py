@@ -6,6 +6,7 @@ from datetime import datetime, timedelta
 import random
 import uuid
 import math
+import os
 
 app = FastAPI(title="eDNA Analysis API", version="1.0.0")
 
@@ -242,6 +243,128 @@ FASTA_FILES = [
         "environmental_score": 68.2
     }
 ]
+
+def load_28s_fungal_data():
+    """Load and process 28S fungal sequences data from JSON file"""
+    try:
+        file_path = os.path.join("fasta_files", "28S_fungal_sequences_Results.json")
+        with open(file_path, 'r') as f:
+            data = json.load(f)
+        return data
+    except FileNotFoundError:
+        return None
+    except json.JSONDecodeError:
+        return None
+
+def process_28s_fungal_analysis(fungal_data):
+    """Process 28S fungal data for analysis report"""
+    if not fungal_data:
+        return None
+    
+    analysis_info = fungal_data.get("analysis_info", {})
+    summary = fungal_data.get("summary", {})
+    detailed_results = fungal_data.get("detailed_results", [])
+    
+    # Extract key statistics
+    total_sequences = analysis_info.get("total_sequences_analyzed", 0)
+    known_species = summary.get("known_species_count", 0)
+    novel_candidates = summary.get("novel_candidates_count", 0)
+    total_clusters = summary.get("total_clusters_identified", 0)
+    
+    # Process species distribution
+    species_distribution = {}
+    depth_distribution = {}
+    temperature_distribution = {}
+    geographic_distribution = []
+    
+    for result in detailed_results:
+        # Species classification
+        organism = result.get("classification", {}).get("predicted_organism", "Unknown")
+        if organism in species_distribution:
+            species_distribution[organism] += 1
+        else:
+            species_distribution[organism] = 1
+        
+        # Environmental data
+        env_data = result.get("environmental_data", {})
+        depth = env_data.get("depth_meters", 0)
+        temp = env_data.get("temperature_celsius", 0)
+        lat = env_data.get("latitude", 0)
+        lng = env_data.get("longitude", 0)
+        
+        # Depth categorization
+        if depth < 200:
+            depth_cat = "Shallow (0-200m)"
+        elif depth < 1000:
+            depth_cat = "Intermediate (200-1000m)"
+        elif depth < 4000:
+            depth_cat = "Deep (1000-4000m)"
+        else:
+            depth_cat = "Abyssal (>4000m)"
+        
+        depth_distribution[depth_cat] = depth_distribution.get(depth_cat, 0) + 1
+        
+        # Temperature categorization
+        if temp < 5:
+            temp_cat = "Cold (<5°C)"
+        elif temp < 15:
+            temp_cat = "Moderate (5-15°C)"
+        else:
+            temp_cat = "Warm (>15°C)"
+        
+        temperature_distribution[temp_cat] = temperature_distribution.get(temp_cat, 0) + 1
+        
+        # Geographic data
+        if lat != 0 and lng != 0:
+            geographic_distribution.append({"lat": lat, "lng": lng, "species": organism})
+    
+    # Calculate diversity metrics
+    species_count = len(species_distribution)
+    novelty_rate = (novel_candidates / total_sequences * 100) if total_sequences > 0 else 0
+    
+    # Top species by abundance
+    top_species = sorted(species_distribution.items(), key=lambda x: x[1], reverse=True)[:10]
+    
+    return {
+        "analysis_metadata": {
+            "timestamp": analysis_info.get("timestamp"),
+            "version": analysis_info.get("version"),
+            "model_used": analysis_info.get("model_used"),
+            "clustering_method": analysis_info.get("clustering_method"),
+            "input_dataset": analysis_info.get("input_dataset")
+        },
+        "summary_statistics": {
+            "total_sequences_analyzed": total_sequences,
+            "known_species_count": known_species,
+            "novel_candidates_count": novel_candidates,
+            "total_clusters_identified": total_clusters,
+            "species_diversity": species_count,
+            "novelty_discovery_rate": round(novelty_rate, 2)
+        },
+        "species_distribution": dict(top_species),
+        "environmental_analysis": {
+            "depth_distribution": depth_distribution,
+            "temperature_distribution": temperature_distribution,
+            "depth_range": {
+                "min": min([r.get("environmental_data", {}).get("depth_meters", 0) for r in detailed_results]),
+                "max": max([r.get("environmental_data", {}).get("depth_meters", 0) for r in detailed_results]),
+                "average": sum([r.get("environmental_data", {}).get("depth_meters", 0) for r in detailed_results]) / len(detailed_results)
+            },
+            "temperature_range": {
+                "min": min([r.get("environmental_data", {}).get("temperature_celsius", 0) for r in detailed_results]),
+                "max": max([r.get("environmental_data", {}).get("temperature_celsius", 0) for r in detailed_results]),
+                "average": sum([r.get("environmental_data", {}).get("temperature_celsius", 0) for r in detailed_results]) / len(detailed_results)
+            }
+        },
+        "geographic_distribution": geographic_distribution[:50],  # Limit to 50 points for performance
+        "cluster_analysis": summary.get("cluster_distribution", {}),
+        "research_insights": {
+            "biodiversity_hotspots": "Deep ocean environments show high fungal diversity",
+            "novel_discovery_potential": "High" if novelty_rate > 5 else "Moderate" if novelty_rate > 1 else "Low",
+            "ecological_significance": "Marine fungi play crucial roles in ocean carbon cycling",
+            "biotechnology_applications": "Potential for novel enzymes and bioactive compounds"
+        }
+    }
 
 def generate_species_data_by_environment(sample_type: str, depth: float = 0, seed: int = None):
     """Generate environment-specific species detection data"""
@@ -990,6 +1113,10 @@ async def get_analysis_report(file_id: str):
     # Generate unique chart data for this file
     chart_data = generate_unique_chart_data(file_info, species_data)
     
+    # Load and process 28S fungal data
+    fungal_data = load_28s_fungal_data()
+    fungal_analysis = process_28s_fungal_analysis(fungal_data) if fungal_data else None
+    
     analysis_report = {
         "file_info": file_info,
         "analysis_metadata": {
@@ -1036,7 +1163,8 @@ async def get_analysis_report(file_id: str):
             "trend_direction": random.choice(["increasing", "decreasing", "stable"])
         },
         "specialized_analysis": specialized_analysis,
-        "chart_data": chart_data  # Add unique chart data for each file
+        "chart_data": chart_data,  # Add unique chart data for each file
+        "fungal_28s_analysis": fungal_analysis  # Add 28S fungal analysis
     }
     
     # Calculate phylum breakdown
@@ -1047,6 +1175,45 @@ async def get_analysis_report(file_id: str):
     analysis_report["taxonomic_breakdown"]["phylums"] = phylum_counts
     
     return analysis_report
+
+@app.get("/analysis/fungal-28s")
+async def get_fungal_28s_analysis():
+    """Get detailed 28S fungal sequences analysis"""
+    
+    # Load and process 28S fungal data
+    fungal_data = load_28s_fungal_data()
+    if not fungal_data:
+        raise HTTPException(status_code=404, detail="28S fungal data not found")
+    
+    fungal_analysis = process_28s_fungal_analysis(fungal_data)
+    
+    return {
+        "analysis_type": "28S Fungal Sequences Analysis",
+        "data_source": "ITS RefSeq Fungi Database",
+        "analysis_results": fungal_analysis,
+        "visualization_data": {
+            "species_abundance_chart": [
+                {"species": species, "count": count} 
+                for species, count in list(fungal_analysis["species_distribution"].items())[:10]
+            ],
+            "depth_distribution_chart": [
+                {"depth_category": category, "count": count}
+                for category, count in fungal_analysis["environmental_analysis"]["depth_distribution"].items()
+            ],
+            "temperature_distribution_chart": [
+                {"temperature_category": category, "count": count}
+                for category, count in fungal_analysis["environmental_analysis"]["temperature_distribution"].items()
+            ],
+            "geographic_map_data": fungal_analysis["geographic_distribution"]
+        },
+        "key_insights": [
+            f"Analyzed {fungal_analysis['summary_statistics']['total_sequences_analyzed']} fungal sequences",
+            f"Identified {fungal_analysis['summary_statistics']['known_species_count']} known species",
+            f"Discovered {fungal_analysis['summary_statistics']['novel_candidates_count']} novel candidates",
+            f"Novelty discovery rate: {fungal_analysis['summary_statistics']['novelty_discovery_rate']}%",
+            f"Species diversity: {fungal_analysis['summary_statistics']['species_diversity']} unique species"
+        ]
+    }
 
 @app.get("/analysis/{file_id}/species")
 async def get_species_details(file_id: str, species_id: Optional[str] = None):
