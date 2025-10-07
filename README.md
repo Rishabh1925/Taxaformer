@@ -5,12 +5,10 @@
 **Advanced Environmental DNA Analysis with Machine Learning & Interactive Visualization**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![GitHub release](https://img.shields.io/github/release/Shaurya-Sinha3301/Taxaformer.svg)](https://github.com/Shaurya-Sinha3301/Taxaformer/releases)
-[![GitHub stars](https://img.shields.io/github/stars/Shaurya-Sinha3301/Taxaformer.svg)](https://github.com/Shaurya-Sinha3301/Taxaformer/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/Shaurya-Sinha3301/Taxaformer.svg)](https://github.com/Shaurya-Sinha3301/Taxaformer/network)
+
 [![GitHub issues](https://img.shields.io/github/issues/Shaurya-Sinha3301/Taxaformer.svg)](https://github.com/Shaurya-Sinha3301/Taxaformer/issues)
 
-[![Deploy to GitHub Pages](https://github.com/Shaurya-Sinha3301/Taxaformer/actions/workflows/deploy.yml/badge.svg)](https://github.com/Shaurya-Sinha3301/Taxaformer/actions/workflows/deploy.yml)
+
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg)](https://nodejs.org/)
 [![Python Version](https://img.shields.io/badge/python-%3E%3D3.8-blue.svg)](https://python.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?logo=typescript&logoColor=white)](https://typescriptlang.org/)
