@@ -2,12 +2,16 @@ import { motion } from 'framer-motion';
 import { Microscope, Zap, Globe, TrendingUp, ChevronRight, Sparkles } from 'lucide-react';
 import { Button } from './ui/button';
 
-export function LandingPage() {
+interface LandingPageProps {
+  onNavigateToReports?: () => void;
+}
+
+export function LandingPage({ onNavigateToReports }: LandingPageProps) {
   const features = [
     {
       icon: Microscope,
       title: "AI-Powered Analysis",
-      description: "Advanced machine learning algorithms process eDNA samples with 99.7% accuracy"
+      description: "Advanced machine learning algorithms process eDNA samples with 85% accuracy"
     },
     {
       icon: Globe,
@@ -66,11 +70,17 @@ export function LandingPage() {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button className="bg-white text-black hover:bg-gray-100 px-8 py-3 rounded-xl border-0">
+              <Button 
+                onClick={onNavigateToReports}
+                className="bg-white text-black hover:bg-gray-100 px-8 py-3 rounded-xl border-0 font-semibold"
+              >
                 Start Analysis
                 <ChevronRight className="w-4 h-4 ml-2" />
               </Button>
-              <Button variant="outline" className="border-white/20 text-white hover:bg-white/10 px-8 py-3 rounded-xl">
+              <Button 
+                variant="outline" 
+                className="border-white/30 text-white hover:bg-white/20 hover:border-white/40 px-8 py-3 rounded-xl font-semibold backdrop-blur-md bg-white/5 shadow-lg"
+              >
                 View Demo
               </Button>
             </div>
@@ -110,15 +120,15 @@ export function LandingPage() {
         >
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             <div>
-              <div className="text-3xl text-white mb-2">10,000+</div>
-              <div className="text-gray-400 text-sm">Samples Analyzed</div>
+              <div className="text-3xl text-white mb-2">10</div>
+              <div className="text-gray-400 text-sm">FASTA Files</div>
             </div>
             <div>
-              <div className="text-3xl text-white mb-2">500+</div>
+              <div className="text-3xl text-white mb-2">25+</div>
               <div className="text-gray-400 text-sm">Species Identified</div>
             </div>
             <div>
-              <div className="text-3xl text-white mb-2">99.7%</div>
+              <div className="text-3xl text-white mb-2">85%</div>
               <div className="text-gray-400 text-sm">Accuracy Rate</div>
             </div>
             <div>

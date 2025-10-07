@@ -1,6 +1,6 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 
-  (import.meta.env.MODE === 'production' 
-    ? 'https://taxaformer-1.onrender.com' 
+const API_BASE_URL = (import.meta as any).env?.VITE_API_BASE_URL ||
+  ((import.meta as any).env?.MODE === 'production'
+    ? 'https://taxaformer-1.onrender.com'
     : 'http://localhost:8000');
 
 export interface FastaFile {
@@ -41,6 +41,7 @@ export interface AnalysisReport {
     processing_time: string;
     pipeline_version: string;
     database_version: string;
+    analysis_type?: string;
   };
   summary_statistics: {
     total_species_detected: number;
@@ -49,18 +50,11 @@ export interface AnalysisReport {
     average_confidence_score: number;
     shannon_diversity_index: number;
     simpson_diversity_index: number;
+    novel_species_count?: number;
+    novel_species_percentage?: number;
   };
   species_composition: Species[];
-  environmental_parameters: {
-    temperature: number;
-    ph: number;
-    dissolved_oxygen: number;
-    turbidity: number;
-    conductivity: number;
-    salinity: number;
-    depth: number;
-    flow_rate: number;
-  };
+  environmental_parameters: Record<string, any>;
   taxonomic_breakdown: {
     kingdoms: Record<string, number>;
     phylums: Record<string, number>;
@@ -75,6 +69,62 @@ export interface AnalysisReport {
     seasonal_variation: number;
     stability_index: number;
     trend_direction: string;
+  };
+  specialized_analysis?: {
+    analysis_type: string;
+    key_findings: Record<string, any>;
+    extremophile_characteristics?: Record<string, any>;
+    oceanographic_indicators?: Record<string, any>;
+    water_quality_indicators?: Record<string, any>;
+    nutrient_cycling?: Record<string, any>;
+    microbial_indicators?: Record<string, any>;
+    research_implications?: Record<string, any>;
+    management_recommendations?: Record<string, any>;
+    public_health_implications?: Record<string, any>;
+    [key: string]: any;
+  };
+  chart_data?: {
+    radar_data: Array<{
+      metric: string;
+      value: number;
+      fullMark: number;
+    }>;
+    clustering_data: Array<{
+      cluster: string;
+      x: number;
+      y: number;
+      z: number;
+      size: number;
+      species: string;
+    }>;
+    cluster_size_data: Array<{
+      name: string;
+      sequences: number;
+      abundance: number;
+    }>;
+    environmental_data: Array<Record<string, any>>;
+    richness_data: Array<{
+      site: string;
+      richness: number;
+      diversity: number;
+    }>;
+    abundance_treemap_data: Array<{
+      name: string;
+      value: number;
+      category: string;
+    }>;
+    prediction_data: Array<{
+      quarter: string;
+      lower: number;
+      expected: number;
+      upper: number;
+    }>;
+    outlier_data: Array<{
+      similarity: number;
+      confidence: number;
+      type: string;
+      species: string;
+    }>;
   };
 }
 
@@ -102,10 +152,10 @@ class ApiService {
   }
 
   async getSpeciesDetails(fileId: string, speciesId?: string): Promise<any> {
-    const url = speciesId 
+    const url = speciesId
       ? `${this.baseUrl}/analysis/${fileId}/species?species_id=${speciesId}`
       : `${this.baseUrl}/analysis/${fileId}/species`;
-    
+
     const response = await fetch(url);
     if (!response.ok) {
       throw new Error('Failed to fetch species details');
@@ -134,11 +184,11 @@ class ApiService {
       method: 'POST',
       body: formData,
     });
-    
+
     if (!response.ok) {
       throw new Error('Failed to upload FASTA file');
     }
-    
+
     return response.json();
   }
 }
@@ -155,7 +205,7 @@ export const fetchAnalysisReports = async (): Promise<Record<string, AnalysisRep
   try {
     const { files } = await apiService.getFastaFiles();
     const reports: Record<string, AnalysisReport> = {};
-    
+
     // Try to fetch analysis reports for each file
     for (const file of files) {
       try {

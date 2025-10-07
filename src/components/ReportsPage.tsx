@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import { 
   LineChart, Line, AreaChart, Area, XAxis, YAxis, CartesianGrid, ResponsiveContainer, 
   Tooltip, Legend, BarChart, Bar, ScatterChart, Scatter, Cell, RadialBarChart, RadialBar,
-  PieChart, Pie, ComposedChart, TreeMap
+  PieChart, Pie, ComposedChart, Treemap, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis
 } from 'recharts';
 import { FileText, Download, Filter, Calendar, TrendingUp, Users, File, Upload, Search, Eye, Database, Zap, MapPin, Clock, Award, BarChart3, Activity, Layers, Globe, ArrowUpDown, ChevronUp, ChevronDown, Loader2, X, CheckCircle, AlertCircle, FileUp, CloudUpload } from 'lucide-react';
 import { Button } from './ui/button';
@@ -453,8 +453,8 @@ export function ReportsPage() {
     }
   ];
 
-  // Chart data
-  const clusteringData = [
+  // Dynamic chart data from API response
+  const clusteringData = analysisReport?.chart_data?.clustering_data || [
     { cluster: 'Cluster 1', x: 12, y: 15, z: 8, size: 120, species: 'Marine Fish' },
     { cluster: 'Cluster 2', x: 25, y: 20, z: 12, size: 85, species: 'Algae' },
     { cluster: 'Cluster 3', x: 35, y: 10, z: 18, size: 95, species: 'Bacteria' },
@@ -462,7 +462,7 @@ export function ReportsPage() {
     { cluster: 'Outliers', x: 45, y: 5, z: 30, size: 25, species: 'Novel Species' }
   ];
 
-  const clusterSizeData = [
+  const clusterSizeData = analysisReport?.chart_data?.cluster_size_data || [
     { name: 'Cluster 1', sequences: 450, abundance: 32 },
     { name: 'Cluster 2', sequences: 380, abundance: 28 },
     { name: 'Cluster 3', sequences: 320, abundance: 24 },
@@ -472,7 +472,7 @@ export function ReportsPage() {
     { name: 'Outliers', sequences: 45, abundance: 3 }
   ];
 
-  const outlierData = [
+  const outlierData = analysisReport?.chart_data?.outlier_data || [
     { similarity: 0.95, confidence: 0.92, type: 'Known', species: 'Salmo trutta' },
     { similarity: 0.88, confidence: 0.85, type: 'Known', species: 'Gadus morhua' },
     { similarity: 0.75, confidence: 0.78, type: 'Known', species: 'Pleuronectes platessa' },
@@ -481,7 +481,7 @@ export function ReportsPage() {
     { similarity: 0.25, confidence: 0.35, type: 'Novel', species: 'Unknown sp. 3' }
   ];
 
-  const environmentalData = [
+  const environmentalData = analysisReport?.chart_data?.environmental_data || [
     { temp: 8, depth: 50, cluster: 'Cluster A', ph: 8.1, salinity: 35 },
     { temp: 12, depth: 75, cluster: 'Cluster A', ph: 8.0, salinity: 34 },
     { temp: 15, depth: 25, cluster: 'Cluster B', ph: 7.9, salinity: 36 },
@@ -490,7 +490,7 @@ export function ReportsPage() {
     { temp: 25, depth: 150, cluster: 'Cluster C', ph: 7.6, salinity: 35 }
   ];
 
-  const richnessData = [
+  const richnessData = analysisReport?.chart_data?.richness_data || [
     { site: 'Site 1', richness: 45, diversity: 3.2 },
     { site: 'Site 2', richness: 38, diversity: 2.8 },
     { site: 'Site 3', richness: 52, diversity: 3.5 },
@@ -501,7 +501,7 @@ export function ReportsPage() {
     { site: 'Site 8', richness: 39, diversity: 2.9 }
   ];
 
-  const abundanceTreemapData = [
+  const abundanceTreemapData = analysisReport?.chart_data?.abundance_treemap_data || [
     { name: 'Marine Fish', value: 450, category: 'Vertebrates' },
     { name: 'Algae', value: 320, category: 'Plants' },
     { name: 'Bacteria', value: 280, category: 'Microorganisms' },
@@ -512,16 +512,18 @@ export function ReportsPage() {
     { name: 'Novel Species', value: 45, category: 'Unknown' }
   ];
 
-  const streamData = [
-    { month: 'Jan', fish: 45, algae: 32, bacteria: 28, plankton: 15 },
-    { month: 'Feb', fish: 52, algae: 38, bacteria: 31, plankton: 18 },
-    { month: 'Mar', fish: 48, algae: 35, bacteria: 29, plankton: 16 },
-    { month: 'Apr', fish: 61, algae: 42, bacteria: 36, plankton: 22 },
-    { month: 'May', fish: 67, algae: 48, bacteria: 41, plankton: 25 },
-    { month: 'Jun', fish: 73, algae: 52, bacteria: 45, plankton: 28 }
+  const radarData = analysisReport?.chart_data?.radar_data || [
+    { metric: 'Biodiversity Index', value: 80, fullMark: 100 },
+    { metric: 'Species Richness', value: 75, fullMark: 100 },
+    { metric: 'Environmental Health', value: 85, fullMark: 100 },
+    { metric: 'Water Quality', value: 90, fullMark: 100 },
+    { metric: 'Ecosystem Stability', value: 70, fullMark: 100 },
+    { metric: 'Novel Species Rate', value: 60, fullMark: 100 },
+    { metric: 'Genetic Diversity', value: 85, fullMark: 100 },
+    { metric: 'Habitat Complexity', value: 75, fullMark: 100 }
   ];
 
-  const predictionData = [
+  const predictionData = analysisReport?.chart_data?.prediction_data || [
     { quarter: 'Q1 2024', lower: 100, expected: 125, upper: 150 },
     { quarter: 'Q2 2024', lower: 110, expected: 135, upper: 160 },
     { quarter: 'Q3 2024', lower: 105, expected: 137, upper: 170 },
@@ -692,11 +694,11 @@ export function ReportsPage() {
                 <Card className="glass-panel p-6 border-0">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-gray-400 text-sm">Avg Confidence</p>
-                      <p className="text-2xl text-white">{(analysisReport.summary_statistics.average_confidence_score * 100).toFixed(1)}%</p>
-                      <p className="text-green-400 text-sm">Score</p>
+                      <p className="text-gray-400 text-sm">Novel Species</p>
+                      <p className="text-2xl text-white">{analysisReport.summary_statistics.novel_species_count || 0}</p>
+                      <p className="text-purple-400 text-sm">{analysisReport.summary_statistics.novel_species_percentage || 0}% of total</p>
                     </div>
-                    <MapPin className="w-8 h-8 text-green-400" />
+                    <Eye className="w-8 h-8 text-purple-400" />
                   </div>
                 </Card>
               </div>
@@ -736,7 +738,196 @@ export function ReportsPage() {
             <div className="text-center mb-8">
               <h2 className="text-3xl font-bold text-white mb-2">Comprehensive eDNA Analysis Dashboard</h2>
               <p className="text-gray-400">Complete analysis overview for {analysisReport.file_info.name}</p>
+              {analysisReport.analysis_metadata?.analysis_type && (
+                <div className="mt-4">
+                  <Badge className="bg-blue-500/20 text-blue-400 border-blue-500/30 text-lg px-4 py-2">
+                    {analysisReport.analysis_metadata.analysis_type}
+                  </Badge>
+                </div>
+              )}
             </div>
+
+            {/* Specialized Analysis Section */}
+            {analysisReport.specialized_analysis && (
+              <div className="space-y-6 mb-8">
+                <div className="flex items-center gap-3 mb-6">
+                  <Zap className="w-6 h-6 text-yellow-400" />
+                  <h3 className="text-2xl font-semibold text-white">Specialized Environmental Analysis</h3>
+                </div>
+                
+                <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+                  {/* Key Findings Card */}
+                  <Card className="glass-panel p-6 border-0">
+                    <h4 className="text-white mb-4 text-lg font-medium flex items-center gap-2">
+                      <Award className="w-5 h-5 text-yellow-400" />
+                      Key Findings
+                    </h4>
+                    <div className="space-y-3">
+                      {Object.entries(analysisReport.specialized_analysis.key_findings || {}).map(([key, value]) => (
+                        <div key={key} className="flex justify-between items-center">
+                          <span className="text-gray-400 text-sm capitalize">{key.replace(/_/g, ' ')}</span>
+                          <span className="text-white font-medium">
+                            {typeof value === 'number' ? value.toLocaleString() : value}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </Card>
+
+                  {/* Environment-Specific Metrics */}
+                  {analysisReport.specialized_analysis.extremophile_characteristics && (
+                    <Card className="glass-panel p-6 border-0">
+                      <h4 className="text-white mb-4 text-lg font-medium flex items-center gap-2">
+                        <Globe className="w-5 h-5 text-red-400" />
+                        Extremophile Analysis
+                      </h4>
+                      <div className="space-y-3">
+                        {Object.entries(analysisReport.specialized_analysis.extremophile_characteristics).map(([key, value]) => (
+                          <div key={key} className="flex justify-between items-center">
+                            <span className="text-gray-400 text-sm capitalize">{key.replace(/_/g, ' ')}</span>
+                            <span className="text-red-400 font-medium">{value}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </Card>
+                  )}
+
+                  {analysisReport.specialized_analysis.oceanographic_indicators && (
+                    <Card className="glass-panel p-6 border-0">
+                      <h4 className="text-white mb-4 text-lg font-medium flex items-center gap-2">
+                        <Globe className="w-5 h-5 text-blue-400" />
+                        Oceanographic Indicators
+                      </h4>
+                      <div className="space-y-3">
+                        {Object.entries(analysisReport.specialized_analysis.oceanographic_indicators).map(([key, value]) => (
+                          <div key={key} className="flex justify-between items-center">
+                            <span className="text-gray-400 text-sm capitalize">{key.replace(/_/g, ' ')}</span>
+                            <span className="text-blue-400 font-medium">
+                              {typeof value === 'number' ? value.toFixed(2) : value.toString()}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </Card>
+                  )}
+
+                  {analysisReport.specialized_analysis.water_quality_indicators && (
+                    <Card className="glass-panel p-6 border-0">
+                      <h4 className="text-white mb-4 text-lg font-medium flex items-center gap-2">
+                        <Activity className="w-5 h-5 text-green-400" />
+                        Water Quality Indicators
+                      </h4>
+                      <div className="space-y-3">
+                        {Object.entries(analysisReport.specialized_analysis.water_quality_indicators).map(([key, value]) => (
+                          <div key={key} className="flex justify-between items-center">
+                            <span className="text-gray-400 text-sm capitalize">{key.replace(/_/g, ' ')}</span>
+                            <span className="text-green-400 font-medium">
+                              {typeof value === 'object' ? JSON.stringify(value) : value.toString()}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </Card>
+                  )}
+
+                  {analysisReport.specialized_analysis.nutrient_cycling && (
+                    <Card className="glass-panel p-6 border-0">
+                      <h4 className="text-white mb-4 text-lg font-medium flex items-center gap-2">
+                        <Layers className="w-5 h-5 text-green-400" />
+                        Nutrient Cycling
+                      </h4>
+                      <div className="space-y-3">
+                        {Object.entries(analysisReport.specialized_analysis.nutrient_cycling).map(([key, value]) => (
+                          <div key={key} className="flex justify-between items-center">
+                            <span className="text-gray-400 text-sm capitalize">{key.replace(/_/g, ' ')}</span>
+                            <span className="text-green-400 font-medium">
+                              {typeof value === 'boolean' ? (value ? 'Active' : 'Inactive') : 
+                               typeof value === 'number' ? value.toFixed(2) : value}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </Card>
+                  )}
+
+                  {analysisReport.specialized_analysis.microbial_indicators && (
+                    <Card className="glass-panel p-6 border-0">
+                      <h4 className="text-white mb-4 text-lg font-medium flex items-center gap-2">
+                        <AlertCircle className="w-5 h-5 text-orange-400" />
+                        Microbial Indicators
+                      </h4>
+                      <div className="space-y-3">
+                        {Object.entries(analysisReport.specialized_analysis.microbial_indicators).map(([key, value]) => (
+                          <div key={key} className="flex justify-between items-center">
+                            <span className="text-gray-400 text-sm capitalize">{key.replace(/_/g, ' ')}</span>
+                            <span className={`font-medium ${
+                              key.includes('risk') || key.includes('contamination') ? 'text-orange-400' : 'text-white'
+                            }`}>
+                              {typeof value === 'boolean' ? (value ? 'Present' : 'Absent') : 
+                               typeof value === 'number' ? value.toFixed(2) : value}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </Card>
+                  )}
+                </div>
+
+                {/* Research Implications for Deep Sea */}
+                {analysisReport.specialized_analysis.research_implications && (
+                  <Card className="glass-panel p-6 border-0 mt-6">
+                    <h4 className="text-white mb-4 text-lg font-medium flex items-center gap-2">
+                      <Eye className="w-5 h-5 text-purple-400" />
+                      Research & Conservation Implications
+                    </h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {Object.entries(analysisReport.specialized_analysis.research_implications).map(([key, value]) => (
+                        <div key={key} className="bg-black/20 rounded-lg p-4">
+                          <h5 className="text-purple-400 font-medium mb-2 capitalize">{key.replace(/_/g, ' ')}</h5>
+                          <p className="text-gray-300 text-sm">{value}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </Card>
+                )}
+
+                {/* Management Recommendations */}
+                {analysisReport.specialized_analysis.management_recommendations && (
+                  <Card className="glass-panel p-6 border-0 mt-6">
+                    <h4 className="text-white mb-4 text-lg font-medium flex items-center gap-2">
+                      <CheckCircle className="w-5 h-5 text-green-400" />
+                      Management Recommendations
+                    </h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {Object.entries(analysisReport.specialized_analysis.management_recommendations).map(([key, value]) => (
+                        <div key={key} className="bg-black/20 rounded-lg p-4">
+                          <h5 className="text-green-400 font-medium mb-2 capitalize">{key.replace(/_/g, ' ')}</h5>
+                          <p className="text-gray-300 text-sm">{value}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </Card>
+                )}
+
+                {/* Public Health Implications */}
+                {analysisReport.specialized_analysis.public_health_implications && (
+                  <Card className="glass-panel p-6 border-0 mt-6">
+                    <h4 className="text-white mb-4 text-lg font-medium flex items-center gap-2">
+                      <AlertCircle className="w-5 h-5 text-red-400" />
+                      Public Health Implications
+                    </h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {Object.entries(analysisReport.specialized_analysis.public_health_implications).map(([key, value]) => (
+                        <div key={key} className="bg-black/20 rounded-lg p-4">
+                          <h5 className="text-red-400 font-medium mb-2 capitalize">{key.replace(/_/g, ' ')}</h5>
+                          <p className="text-gray-300 text-sm">{value}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </Card>
+                )}
+              </div>
+            )}
 
             {/* Overview Section */}
             <div className="space-y-6">
@@ -747,25 +938,45 @@ export function ReportsPage() {
               
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <Card className="chart-container p-6 border-0">
-                  <h4 className="text-white mb-4 text-lg font-medium">Species Abundance Timeline</h4>
+                  <h4 className="text-white mb-4 text-lg font-medium">Environmental & Biodiversity Metrics</h4>
                   <ResponsiveContainer width="100%" height={300}>
-                    <AreaChart data={streamData}>
-                      <defs>
-                        <linearGradient id="fishGradient" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#60A5FA" stopOpacity={0.3}/>
-                          <stop offset="95%" stopColor="#60A5FA" stopOpacity={0}/>
-                        </linearGradient>
-                      </defs>
-                      <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
-                      <XAxis dataKey="month" stroke="#9ca3af" />
-                      <YAxis stroke="#9ca3af" />
-                      <Tooltip content={<CustomTooltip />} />
-                      <Legend />
-                      <Area type="monotone" dataKey="fish" stackId="1" stroke="#60A5FA" fill="url(#fishGradient)" />
-                      <Area type="monotone" dataKey="algae" stackId="1" stroke="#34D399" fill="#34D399" fillOpacity={0.3} />
-                      <Area type="monotone" dataKey="bacteria" stackId="1" stroke="#F472B6" fill="#F472B6" fillOpacity={0.3} />
-                      <Area type="monotone" dataKey="plankton" stackId="1" stroke="#FBBF24" fill="#FBBF24" fillOpacity={0.3} />
-                    </AreaChart>
+                    <RadarChart data={radarData}>
+                      <PolarGrid stroke="rgba(255,255,255,0.2)" />
+                      <PolarAngleAxis 
+                        dataKey="metric" 
+                        tick={{ fill: '#9ca3af', fontSize: 12 }}
+                        className="text-xs"
+                      />
+                      <PolarRadiusAxis 
+                        angle={90} 
+                        domain={[0, 100]} 
+                        tick={{ fill: '#9ca3af', fontSize: 10 }}
+                        tickCount={6}
+                      />
+                      <Radar
+                        name="Metrics"
+                        dataKey="value"
+                        stroke="#60A5FA"
+                        fill="#60A5FA"
+                        fillOpacity={0.3}
+                        strokeWidth={2}
+                        dot={{ fill: '#60A5FA', strokeWidth: 2, r: 4 }}
+                      />
+                      <Tooltip 
+                        content={({ active, payload }) => {
+                          if (active && payload && payload.length) {
+                            const data = payload[0].payload;
+                            return (
+                              <div className="bg-black/90 border border-white/10 rounded-lg p-3">
+                                <p className="text-white text-sm font-medium">{data.metric}</p>
+                                <p className="text-blue-400 text-sm">{`Score: ${data.value}/100`}</p>
+                              </div>
+                            );
+                          }
+                          return null;
+                        }}
+                      />
+                    </RadarChart>
                   </ResponsiveContainer>
                 </Card>
 
@@ -794,36 +1005,95 @@ export function ReportsPage() {
               </div>
               
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <Card className="chart-container p-6 border-0">
+                <Card className="chart-container p-6 border-0 relative">
                   <h4 className="text-white mb-4 text-lg font-medium">Cluster Distribution (UMAP Embeddings)</h4>
-                  <ResponsiveContainer width="100%" height={350}>
-                    <ScatterChart data={clusteringData}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
-                      <XAxis type="number" dataKey="x" name="UMAP 1" stroke="#9ca3af" />
-                      <YAxis type="number" dataKey="y" name="UMAP 2" stroke="#9ca3af" />
-                      <Tooltip 
-                        cursor={{ strokeDasharray: '3 3' }}
-                        content={({ active, payload }) => {
-                          if (active && payload && payload.length) {
-                            const data = payload[0].payload;
-                            return (
-                              <div className="bg-black/90 border border-white/10 rounded-lg p-3">
-                                <p className="text-white text-sm">{data.cluster}</p>
-                                <p className="text-gray-400 text-sm">{data.species}</p>
-                                <p className="text-blue-400 text-sm">Size: {data.size}</p>
-                              </div>
-                            );
-                          }
-                          return null;
-                        }}
-                      />
-                      <Scatter name="Clusters" dataKey="size" fill="#60A5FA">
-                        {clusteringData.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
-                        ))}
-                      </Scatter>
-                    </ScatterChart>
-                  </ResponsiveContainer>
+                  <div className="relative">
+                    <ResponsiveContainer width="100%" height={350}>
+                      <ScatterChart data={clusteringData} margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
+                        <XAxis type="number" dataKey="x" name="UMAP 1" stroke="#9ca3af" domain={[0, 50]} />
+                        <YAxis type="number" dataKey="y" name="UMAP 2" stroke="#9ca3af" domain={[0, 40]} />
+                        <Tooltip 
+                          cursor={{ strokeDasharray: '3 3' }}
+                          content={({ active, payload }) => {
+                            if (active && payload && payload.length) {
+                              const data = payload[0].payload;
+                              return (
+                                <div className="bg-black/90 border border-white/10 rounded-lg p-3">
+                                  <p className="text-white text-sm">{data.cluster}</p>
+                                  <p className="text-gray-400 text-sm">{data.species}</p>
+                                  <p className="text-blue-400 text-sm">Size: {data.size}</p>
+                                </div>
+                              );
+                            }
+                            return null;
+                          }}
+                        />
+                        <Scatter name="Clusters" dataKey="size" fill="#60A5FA">
+                          {clusteringData.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
+                          ))}
+                        </Scatter>
+                      </ScatterChart>
+                    </ResponsiveContainer>
+                    
+                    {/* Permanent Glass Labels Overlay with dynamic positioning */}
+                    <div className="absolute inset-0 pointer-events-none" style={{ top: '20px', left: '20px', right: '20px', bottom: '20px' }}>
+                      {clusteringData.map((entry, index) => {
+                        // Calculate position more accurately based on chart domain
+                        const xPercent = (entry.x / 50) * 100; // x domain is 0-50
+                        const yPercent = 100 - (entry.y / 40) * 100; // y domain is 0-40, inverted for screen coords
+                        
+                        // Dynamic positioning logic based on data point location and other points
+                        const getOptimalPosition = (x: number, y: number, idx: number) => {
+                          // Check distances to other points to avoid overlaps
+                          const otherPoints = clusteringData.filter((_, i) => i !== idx);
+                          const minDistance = 15; // Minimum distance between labels
+                          
+                          // Preferred positions: right, left, top-right, top-left, bottom-right, bottom-left
+                          const positions = [
+                            { x: 25, y: -10, priority: 1 }, // right
+                            { x: -120, y: -10, priority: 2 }, // left
+                            { x: 25, y: -40, priority: 3 }, // top-right
+                            { x: -120, y: -40, priority: 4 }, // top-left
+                            { x: 25, y: 20, priority: 5 }, // bottom-right
+                            { x: -120, y: 20, priority: 6 }, // bottom-left
+                          ];
+                          
+                          // Adjust based on chart boundaries
+                          if (x > 75) return positions[1]; // Use left if too far right
+                          if (x < 25) return positions[0]; // Use right if too far left
+                          if (y < 20) return positions[4]; // Use bottom if too high
+                          if (y > 80) return positions[2]; // Use top if too low
+                          
+                          // Default to right position
+                          return positions[0];
+                        };
+                        
+                        const position = getOptimalPosition(xPercent, yPercent, index);
+                        
+                        return (
+                          <div
+                            key={`label-${index}`}
+                            className="absolute backdrop-blur-sm bg-black/20 border border-white/20 rounded-lg p-3 text-xs shadow-2xl transition-all duration-300"
+                            style={{
+                              left: `calc(${Math.max(5, Math.min(95, xPercent))}% + ${position.x}px)`,
+                              top: `calc(${Math.max(5, Math.min(95, yPercent))}% + ${position.y}px)`,
+                              zIndex: 10,
+                              backdropFilter: 'blur(8px)',
+                              background: 'rgba(0, 0, 0, 0.3)',
+                              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
+                              transform: 'translate(-50%, -50%)',
+                            }}
+                          >
+                            <p className="text-white font-semibold text-sm mb-1">{entry.cluster}</p>
+                            <p className="text-gray-300 text-xs mb-1">{entry.species}</p>
+                            <p className="text-blue-400 font-medium text-xs">Size: {entry.size}</p>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
                 </Card>
 
                 <Card className="chart-container p-6 border-0">
@@ -844,34 +1114,100 @@ export function ReportsPage() {
                 </Card>
               </div>
 
-              <Card className="chart-container p-6 border-0">
+              <Card className="chart-container p-6 border-0 relative">
                 <h4 className="text-white mb-4 text-lg font-medium">Novelty Detection Analysis</h4>
-                <ResponsiveContainer width="100%" height={300}>
-                  <ScatterChart data={outlierData}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
-                    <XAxis type="number" dataKey="similarity" name="Similarity Score" domain={[0, 1]} stroke="#9ca3af" />
-                    <YAxis type="number" dataKey="confidence" name="Confidence" domain={[0, 1]} stroke="#9ca3af" />
-                    <Tooltip 
-                      cursor={{ strokeDasharray: '3 3' }}
-                      content={({ active, payload }) => {
-                        if (active && payload && payload.length) {
-                          const data = payload[0].payload;
-                          return (
-                            <div className="bg-black/90 border border-white/10 rounded-lg p-3">
-                              <p className="text-white text-sm">{data.species}</p>
-                              <p className="text-gray-400 text-sm">Type: {data.type}</p>
-                              <p className="text-blue-400 text-sm">Similarity: {(data.similarity * 100).toFixed(1)}%</p>
-                              <p className="text-green-400 text-sm">Confidence: {(data.confidence * 100).toFixed(1)}%</p>
-                            </div>
-                          );
-                        }
-                        return null;
-                      }}
-                    />
-                    <Scatter name="Known Species" dataKey="confidence" fill="#34D399" />
-                    <Scatter name="Novel Species" dataKey="confidence" fill="#F472B6" />
-                  </ScatterChart>
-                </ResponsiveContainer>
+                <div className="relative">
+                  <ResponsiveContainer width="100%" height={300}>
+                    <ScatterChart data={outlierData} margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
+                      <XAxis type="number" dataKey="similarity" name="Similarity Score" domain={[0, 1]} stroke="#9ca3af" />
+                      <YAxis type="number" dataKey="confidence" name="Confidence" domain={[0, 1]} stroke="#9ca3af" />
+                      <Tooltip 
+                        cursor={{ strokeDasharray: '3 3' }}
+                        content={({ active, payload }) => {
+                          if (active && payload && payload.length) {
+                            const data = payload[0].payload;
+                            return (
+                              <div className="bg-black/90 border border-white/10 rounded-lg p-3">
+                                <p className="text-white text-sm">{data.species}</p>
+                                <p className="text-gray-400 text-sm">Type: {data.type}</p>
+                                <p className="text-blue-400 text-sm">Similarity: {(data.similarity * 100).toFixed(1)}%</p>
+                                <p className="text-green-400 text-sm">Confidence: {(data.confidence * 100).toFixed(1)}%</p>
+                              </div>
+                            );
+                          }
+                          return null;
+                        }}
+                      />
+                      <Scatter name="Known Species" dataKey="confidence" fill="#34D399" />
+                      <Scatter name="Novel Species" dataKey="confidence" fill="#F472B6" />
+                    </ScatterChart>
+                  </ResponsiveContainer>
+                  
+                  {/* Permanent Glass Labels Overlay with dynamic positioning */}
+                  <div className="absolute inset-0 pointer-events-none" style={{ top: '20px', left: '20px', right: '20px', bottom: '20px' }}>
+                    {outlierData.map((entry, index) => {
+                      // Calculate position based on chart domain (0-1 for both axes)
+                      const xPercent = entry.similarity * 100; // similarity is 0-1
+                      const yPercent = 100 - (entry.confidence * 100); // confidence is 0-1, inverted for screen coords
+                      
+                      // Dynamic positioning logic for novelty detection chart
+                      const getOptimalPosition = (x: number, y: number, idx: number) => {
+                        // Check distances to other points to avoid overlaps
+                        const otherPoints = outlierData.filter((_, i) => i !== idx);
+                        
+                        // Preferred positions with different offsets for novelty chart
+                        const positions = [
+                          { x: 30, y: -15, priority: 1 }, // right
+                          { x: -140, y: -15, priority: 2 }, // left
+                          { x: 30, y: -45, priority: 3 }, // top-right
+                          { x: -140, y: -45, priority: 4 }, // top-left
+                          { x: 30, y: 25, priority: 5 }, // bottom-right
+                          { x: -140, y: 25, priority: 6 }, // bottom-left
+                        ];
+                        
+                        // Smart positioning based on chart quadrants
+                        if (x > 70 && y < 30) return positions[3]; // top-left quadrant -> top-left label
+                        if (x > 70 && y >= 30) return positions[1]; // bottom-left quadrant -> left label
+                        if (x <= 70 && y < 30) return positions[2]; // top-right quadrant -> top-right label
+                        if (x <= 70 && y >= 30) return positions[0]; // bottom-right quadrant -> right label
+                        
+                        // Fallback based on boundaries
+                        if (x > 75) return positions[1]; // Use left if too far right
+                        if (x < 25) return positions[0]; // Use right if too far left
+                        if (y < 25) return positions[4]; // Use bottom if too high
+                        if (y > 75) return positions[2]; // Use top if too low
+                        
+                        return positions[0]; // Default to right
+                      };
+                      
+                      const position = getOptimalPosition(xPercent, yPercent, index);
+                      
+                      return (
+                        <div
+                          key={`novelty-label-${index}`}
+                          className="absolute backdrop-blur-sm bg-black/20 border border-white/20 rounded-lg p-3 text-xs shadow-2xl transition-all duration-300"
+                          style={{
+                            left: `calc(${Math.max(5, Math.min(95, xPercent))}% + ${position.x}px)`,
+                            top: `calc(${Math.max(5, Math.min(95, yPercent))}% + ${position.y}px)`,
+                            zIndex: 10,
+                            backdropFilter: 'blur(8px)',
+                            background: 'rgba(0, 0, 0, 0.3)',
+                            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
+                            transform: 'translate(-50%, -50%)',
+                          }}
+                        >
+                          <p className={`font-semibold text-sm mb-1 ${entry.type === 'Novel' ? 'text-pink-400' : 'text-green-400'}`}>
+                            {entry.species.length > 15 ? entry.species.substring(0, 12) + '...' : entry.species}
+                          </p>
+                          <p className="text-gray-300 text-xs mb-1">Type: {entry.type}</p>
+                          <p className="text-blue-400 text-xs">Sim: {(entry.similarity * 100).toFixed(1)}%</p>
+                          <p className="text-green-400 text-xs">Conf: {(entry.confidence * 100).toFixed(1)}%</p>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
               </Card>
             </div>
 
@@ -1370,7 +1706,7 @@ export function ReportsPage() {
                             />
                             <Select 
                               value={field.type} 
-                              onValueChange={(value) => updateMetadataField(field.id, { type: value })}
+                              onValueChange={(value: string) => updateMetadataField(field.id, { type: value })}
                             >
                               <SelectTrigger className="w-24 bg-black/50 border-white/40 text-white text-sm focus:bg-black/70 focus:border-white/60">
                                 <SelectValue />

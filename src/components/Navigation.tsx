@@ -35,7 +35,6 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
               <button
                 key={item.id}
                 onClick={() => handlePageChange(item.id)}
-                onMouseEnter={() => console.log("🖱️ Hover on", item.label)}
                 className={`relative px-4 py-2 rounded-xl transition-all duration-300 flex items-center gap-2 ${
                   currentPage === item.id
                     ? "text-white"

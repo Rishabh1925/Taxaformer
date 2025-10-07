@@ -61,14 +61,14 @@ export default function App() {
             fastaFiles={fastaFiles}
             analysisReports={analysisReports}
             dataLoading={dataLoading}
-            onLocationSelect={(location) => {
+            onLocationSelect={() => {
               // Handle location selection - could navigate to reports or show modal
             }}
           />
         );
       case 'overview':
       default:
-        return <LandingPage />;
+        return <LandingPage onNavigateToReports={() => handlePageChange('reports')} />;
     }
   };
 
