@@ -4,14 +4,12 @@ services:
     name: taxaformer-api
     env: python
     region: oregon
-    buildCommand: cd backend && pip install -r requirements.txt
-    startCommand: cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT
+    buildCommand: cd backend && pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt
+    startCommand: cd backend && python run.py
     healthCheckPath: /
     envVars:
       - key: PYTHON_VERSION
         value: 3.9.18
-      - key: PORT
-        value: 10000
     autoDeploy: true
     
   # ML Backend Service (Optional - if you want to deploy ML pipeline separately)
