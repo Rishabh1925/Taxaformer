@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🧬 Taxaformer - eDNA Analysis Platform
+# Taxaformer - eDNA Analysis Platform
 
 **Advanced Environmental DNA Analysis with Machine Learning & Interactive Visualization**
 
@@ -16,7 +16,7 @@
 [![FastAPI](https://img.shields.io/badge/FastAPI-005571?logo=fastapi)](https://fastapi.tiangolo.com/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C?logo=pytorch&logoColor=white)](https://pytorch.org/)
 
-[🚀 Live Demo](https://shaurya-sinha3301.github.io/Taxaformer) • [📖 Documentation](#-documentation) • [🤝 Contributing](CONTRIBUTING.md) • [🐛 Report Bug](https://github.com/Shaurya-Sinha3301/Taxaformer/issues) • [💡 Request Feature](https://github.com/Shaurya-Sinha3301/Taxaformer/issues)
+[Live Demo](https://shaurya-sinha3301.github.io/Taxaformer) • [Documentation](#-documentation) • [Contributing](CONTRIBUTING.md) • [Report Bug](https://github.com/Shaurya-Sinha3301/Taxaformer/issues) • [Request Feature](https://github.com/Shaurya-Sinha3301/Taxaformer/issues)
 
 ---
 
@@ -24,58 +24,58 @@
 
 </div>
 
-## ✨ Key Features
+## Key Features
 
 <table>
 <tr>
 <td width="50%">
 
-### 🧬 **Advanced eDNA Analysis**
-- **🔬 Nucleotide Transformers**: State-of-the-art ML models for sequence analysis
-- **🎯 Species Identification**: High-confidence taxonomic classification
-- **🆕 Novel Species Detection**: Identify potentially new or rare species
-- **📊 Biodiversity Metrics**: Shannon & Simpson diversity indices
-- **🌡️ Environmental Integration**: Context-aware analysis with environmental parameters
+### **Advanced eDNA Analysis**
+- **Nucleotide Transformers**: State-of-the-art ML models for sequence analysis
+- **Species Identification**: High-confidence taxonomic classification
+- **Novel Species Detection**: Identify potentially new or rare species
+- **Biodiversity Metrics**: Shannon & Simpson diversity indices
+- **Environmental Integration**: Context-aware analysis with environmental parameters
 
 </td>
 <td width="50%">
 
-### 🗺️ **Interactive Geospatial Mapping**
-- **🌍 Dynamic Maps**: Leaflet-powered interactive mapping
-- **📍 Sample Visualization**: Geo-located sampling sites with biodiversity data
-- **🌊 Environmental Layers**: Temperature, pH, depth, and salinity overlays
-- **🔍 Advanced Filtering**: Multi-parameter search and filtering capabilities
-- **📈 Temporal Analysis**: Time-series biodiversity tracking
+### **Interactive Geospatial Mapping**
+- **Dynamic Maps**: Leaflet-powered interactive mapping
+- **Sample Visualization**: Geo-located sampling sites with biodiversity data
+- **Environmental Layers**: Temperature, pH, depth, and salinity overlays
+- **Advanced Filtering**: Multi-parameter search and filtering capabilities
+- **Temporal Analysis**: Time-series biodiversity tracking
 
 </td>
 </tr>
 <tr>
 <td width="50%">
 
-### 🚀 **Modern Web Platform**
-- **⚡ Real-time Processing**: Instant FASTA file analysis
-- **🎨 Glass Morphism UI**: Modern, professional interface design
-- **📱 Responsive Design**: Seamless experience across all devices
-- **🌙 Dark Theme**: Optimized for extended research sessions
-- **🎭 Smooth Animations**: Framer Motion powered transitions
+### **Modern Web Platform**
+- **Real-time Processing**: Instant FASTA file analysis
+- **Glass Morphism UI**: Modern, professional interface design
+- **Responsive Design**: Seamless experience across all devices
+- **Dark Theme**: Optimized for extended research sessions
+- **Smooth Animations**: Framer Motion powered transitions
 
 </td>
 <td width="50%">
 
-### 🔧 **Developer-Friendly**
-- **🔌 RESTful APIs**: Comprehensive backend integration
-- **📁 Drag & Drop**: Intuitive file upload with metadata
-- **📤 Export Capabilities**: Multiple format downloads (JSON, CSV, FASTA)
-- **🔄 Real-time Updates**: Live analysis progress tracking
-- **📚 Comprehensive Docs**: Detailed API and usage documentation
+### **Developer-Friendly**
+- **RESTful APIs**: Comprehensive backend integration
+- **Drag & Drop**: Intuitive file upload with metadata
+- **Export Capabilities**: Multiple format downloads (JSON, CSV, FASTA)
+- **Real-time Updates**: Live analysis progress tracking
+- **Comprehensive Docs**: Detailed API and usage documentation
 
 </td>
 </tr>
 </table>
 
-## 🚀 Quick Start
+## Quick Start
 
-### 📋 Prerequisites
+### Prerequisites
 
 <table>
 <tr>
@@ -105,7 +105,7 @@
 </tr>
 </table>
 
-### ⚡ One-Click Setup
+### One-Click Setup
 
 ```bash
 # Clone and setup everything
@@ -127,7 +127,7 @@ cd backend && python start.py # Terminal 2: Backend API (http://localhost:8000)
 cd ML_backend && python api_server.py # Terminal 3: ML API (http://localhost:8001)
 ```
 
-### 🐳 Docker Setup (Recommended)
+### Docker Setup (Recommended)
 
 ```bash
 # Build and run with Docker Compose
@@ -139,7 +139,7 @@ docker-compose up --build
 # ML API: http://localhost:8001
 ```
 
-### 🌐 Production Deployment
+### Production Deployment
 
 | Platform | Status | URL | Deploy Command |
 |----------|--------|-----|----------------|
@@ -147,74 +147,74 @@ docker-compose up --build
 | **Vercel** | ✅ Ready | - | `vercel --prod` |
 | **Render** | ✅ Backend | [API](https://taxaformer-1.onrender.com) | Auto-deploy on push |
 
-## 📁 Project Structure
+## Project Structure
 
 <details>
-<summary><strong>🏗️ Complete Project Architecture</strong></summary>
+<summary><strong>Complete Project Architecture</strong></summary>
 
 ```
 Taxaformer/
-├── 📁 src/                           # 🎨 Frontend Application
-│   ├── 📁 components/               # React Components
-│   │   ├── 📁 ui/                  # Reusable UI Components (Radix UI)
-│   │   ├── 🏠 LandingPage.tsx      # Homepage & Hero Section
-│   │   ├── 📊 ReportsPage.tsx      # Analysis Dashboard
-│   │   ├── 🗺️ MappingPage.tsx      # Geospatial Interface
-│   │   ├── 🌍 FinalMap.tsx         # Interactive Leaflet Map
-│   │   ├── 🧬 Fungal28sAnalysis.tsx # Specialized Analysis
-│   │   └── 🧭 Navigation.tsx       # App Navigation
-│   ├── 📁 services/                # API Integration
-│   │   └── 🔌 api.ts              # HTTP Client & Endpoints
-│   ├── 📁 styles/                  # Styling & CSS
-│   │   └── 🍃 leaflet.css         # Map Styling
-│   └── 🚀 App.tsx                  # Main Application Root
+├── src/                               # Frontend Application
+│   ├── components/                    # React Components
+│   │   ├── ui/                        # Reusable UI Components (Radix UI)
+│   │   ├── LandingPage.tsx            # Homepage & Hero Section
+│   │   ├── ReportsPage.tsx            # Analysis Dashboard
+│   │   ├── MappingPage.tsx            # Geospatial Interface
+│   │   ├── FinalMap.tsx               # Interactive Leaflet Map
+│   │   ├── Fungal28sAnalysis.tsx      # Specialized Analysis
+│   │   └── Navigation.tsx             # App Navigation
+│   ├── services/                      # API Integration
+│   │   └── api.ts                     # HTTP Client & Endpoints
+│   ├── styles/                        # Styling & CSS
+│   │   └── leaflet.css                # Map Styling
+│   └── App.tsx                        # Main Application Root
 │
-├── 📁 backend/                      # ⚡ FastAPI Backend
-│   ├── 🚀 main.py                  # Primary API Server
-│   ├── 🏁 start.py                 # Server Startup Script
-│   ├── 🧪 test_backend.py          # API Tests
-│   ├── 📋 requirements.txt         # Python Dependencies
-│   ├── 🐳 Dockerfile              # Container Configuration
-│   ├── 📁 fasta_files/            # Sample FASTA Data
-│   └── 🔧 build.sh               # Build Scripts
+├── backend/                           # FastAPI Backend
+│   ├── main.py                        # Primary API Server
+│   ├── start.py                       # Server Startup Script
+│   ├── test_backend.py                # API Tests
+│   ├── requirements.txt               # Python Dependencies
+│   ├── Dockerfile                     # Container Configuration
+│   ├── fasta_files/                   # Sample FASTA Data
+│   └── build.sh                       # Build Scripts
 │
-├── 📁 ML_backend/                   # 🤖 Machine Learning Pipeline
-│   ├── 🧠 oceaneye_pipeline_real.py # Core ML Pipeline
-│   ├── 🔬 taxaformer.py           # Transformer Models
-│   ├── 🌐 api_server.py           # ML API Server
-│   ├── 📓 oceaneye-2-0.ipynb     # Research Notebook
-│   ├── 🧪 test_real_pipeline.py   # ML Tests
-│   ├── 📋 requirements.txt        # ML Dependencies
-│   ├── 🧬 16S_ribosomal_RNA.fasta # Reference Sequences
-│   └── 📚 README.md              # ML Documentation
+├── ML_backend/                        # Machine Learning Pipeline
+│   ├── oceaneye_pipeline_real.py      # Core ML Pipeline
+│   ├── taxaformer.py                  # Transformer Models
+│   ├── api_server.py                  # ML API Server
+│   ├── oceaneye-2-0.ipynb             # Research Notebook
+│   ├── test_real_pipeline.py          # ML Tests
+│   ├── requirements.txt               # ML Dependencies
+│   ├── 16S_ribosomal_RNA.fasta        # Reference Sequences
+│   └── README.md                      # ML Documentation
 │
-├── 📁 .github/                     # 🔄 CI/CD & Automation
-│   └── 📁 workflows/
-│       └── 🚀 deploy.yml          # GitHub Actions Deployment
+├── .github/                           # CI/CD & Automation
+│   └── workflows/
+│       └── deploy.yml                 # GitHub Actions Deployment
 │
-├── 📁 dist/                        # 📦 Production Build Output
-├── 📁 node_modules/               # 📚 Node.js Dependencies
-├── 📁 .vscode/                    # 🔧 VS Code Configuration
-├── 📁 .venv/                      # 🐍 Python Virtual Environment
+├── dist/                              # Production Build Output
+├── node_modules/                      # Node.js Dependencies
+├── .vscode/                           # VS Code Configuration
+├── .venv/                             # Python Virtual Environment
 │
-├── 📄 package.json                # Node.js Project Configuration
-├── 📄 tsconfig.json              # TypeScript Configuration
-├── 📄 vite.config.ts             # Vite Build Configuration
-├── 📄 vercel.json                # Vercel Deployment Config
-├── 📄 .env.example               # Environment Variables Template
-├── 📄 .gitignore                 # Git Ignore Rules
-├── 📄 LICENSE                    # MIT License
-├── 📄 README.md                  # Project Documentation
-├── 📄 CONTRIBUTING.md            # Contribution Guidelines
-├── 📄 DEPLOYMENT_CHECKLIST.md    # Deployment Guide
-└── 📄 VERCEL_DEPLOYMENT.md       # Vercel-specific Deployment
+├── package.json                       # Node.js Project Configuration
+├── tsconfig.json                      # TypeScript Configuration
+├── vite.config.ts                     # Vite Build Configuration
+├── vercel.json                        # Vercel Deployment Config
+├── .env.example                       # Environment Variables Template
+├── .gitignore                         # Git Ignore Rules
+├── LICENSE                            # MIT License
+├── README.md                          # Project Documentation
+├── CONTRIBUTING.md                    # Contribution Guidelines
+├── DEPLOYMENT_CHECKLIST.md            # Deployment Guide
+└── VERCEL_DEPLOYMENT.md               # Vercel-specific Deployment
 ```
 
 </details>
 
-## 📖 Documentation
+## Documentation
 
-### 📚 Available Documentation
+### Available Documentation
 
 | Document | Description | Audience |
 |----------|-------------|----------|
@@ -225,15 +225,15 @@ Taxaformer/
 | **[Deployment Checklist](DEPLOYMENT_CHECKLIST.md)** | Production deployment guide | DevOps |
 | **[Vercel Deployment](VERCEL_DEPLOYMENT.md)** | Vercel-specific deployment | Developers |
 
-### 🔗 Quick Links
+### Quick Links
 
-- **[🚀 Live Demo](https://shaurya-sinha3301.github.io/Taxaformer)** - Try the application
-- **[📖 API Documentation](https://taxaformer-1.onrender.com/docs)** - Interactive API docs
-- **[🧪 ML Pipeline Guide](ML_backend/README.md)** - Detailed ML documentation
-- **[🤝 Contributing Guide](CONTRIBUTING.md)** - How to contribute
-- **[🐛 Issue Tracker](https://github.com/Shaurya-Sinha3301/Taxaformer/issues)** - Report bugs or request features
+- **[Live Demo](https://shaurya-sinha3301.github.io/Taxaformer)** - Try the application
+- **[API Documentation](https://taxaformer-1.onrender.com/docs)** - Interactive API docs
+- **[ML Pipeline Guide](ML_backend/README.md)** - Detailed ML documentation
+- **[Contributing Guide](CONTRIBUTING.md)** - How to contribute
+- **[Issue Tracker](https://github.com/Shaurya-Sinha3301/Taxaformer/issues)** - Report bugs or request features
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 <div align="center">
 
@@ -270,7 +270,7 @@ Taxaformer/
 
 </div>
 
-### 🏗️ Architecture Overview
+### Architecture Overview
 
 ```mermaid
 graph TB
@@ -286,7 +286,7 @@ graph TB
     D --> I
 ```
 
-## 🔧 Development
+## Development
 
 ### Available Scripts
 - `npm run dev` - Start development server
@@ -300,9 +300,9 @@ VITE_API_BASE_URL=http://localhost:8000
 VITE_ML_API_URL=http://localhost:8001
 ```
 
-## 📊 API Documentation
+## API Documentation
 
-### 🔌 Backend API Endpoints
+### Backend API Endpoints
 
 <details>
 <summary><strong>📁 FASTA File Management</strong></summary>
@@ -317,7 +317,7 @@ VITE_ML_API_URL=http://localhost:8001
 </details>
 
 <details>
-<summary><strong>🧬 Species Analysis</strong></summary>
+<summary><strong>Species Analysis</strong></summary>
 
 | Method | Endpoint | Description | Response |
 |--------|----------|-------------|----------|
@@ -328,7 +328,7 @@ VITE_ML_API_URL=http://localhost:8001
 
 </details>
 
-### 🤖 ML Pipeline API Endpoints
+### ML Pipeline API Endpoints
 
 <details>
 <summary><strong>🔬 Machine Learning Operations</strong></summary>
@@ -343,15 +343,15 @@ VITE_ML_API_URL=http://localhost:8001
 
 </details>
 
-### 📖 Interactive API Documentation
+### Interactive API Documentation
 
 - **Swagger UI**: [http://localhost:8000/docs](http://localhost:8000/docs)
 - **ReDoc**: [http://localhost:8000/redoc](http://localhost:8000/redoc)
 - **ML API Docs**: [http://localhost:8001/docs](http://localhost:8001/docs)
 
-## 🚀 Deployment & Production
+## Deployment & Production
 
-### 🌐 Live Deployments
+### Live Deployments
 
 | Service | Status | URL | Purpose |
 |---------|--------|-----|---------|
@@ -359,10 +359,10 @@ VITE_ML_API_URL=http://localhost:8001
 | **Backend API** | ![Render](https://img.shields.io/website?url=https%3A%2F%2Ftaxaformer-1.onrender.com&label=Render) | [API Docs](https://taxaformer-1.onrender.com/docs) | REST API server |
 | **ML Pipeline** | ![Status](https://img.shields.io/badge/status-ready-green) | On-demand | ML processing |
 
-### 🔧 Deployment Options
+### Deployment Options
 
 <details>
-<summary><strong>🏠 Local Development</strong></summary>
+<summary><strong>Local Development</strong></summary>
 
 ```bash
 # Method 1: Manual setup (3 terminals)
@@ -377,7 +377,7 @@ docker-compose up --build
 </details>
 
 <details>
-<summary><strong>🌐 GitHub Pages</strong></summary>
+<summary><strong>GitHub Pages</strong></summary>
 
 ```bash
 # Automatic deployment (on push to main)
@@ -394,7 +394,7 @@ echo "your-domain.com" > dist/CNAME
 </details>
 
 <details>
-<summary><strong>⚡ Vercel</strong></summary>
+<summary><strong>Vercel</strong></summary>
 
 ```bash
 # Install Vercel CLI
@@ -411,7 +411,7 @@ VITE_ML_API_URL=https://your-ml-api.vercel.app
 </details>
 
 <details>
-<summary><strong>🐳 Docker Production</strong></summary>
+<summary><strong>Docker Production</strong></summary>
 
 ```dockerfile
 # Multi-stage build for production
@@ -433,7 +433,7 @@ CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
 
 </details>
 
-### 🔐 Environment Configuration
+### Environment Configuration
 
 <details>
 <summary><strong>Production Environment</strong></summary>
@@ -471,29 +471,29 @@ LOG_LEVEL=DEBUG
 
 </details>
 
-## 🤝 Contributing
+## Contributing
 
 We welcome contributions from the community! Whether you're fixing bugs, adding features, or improving documentation, your help is appreciated.
 
-### 🚀 Quick Contribution Guide
+### Quick Contribution Guide
 
-1. **🍴 Fork** the repository
-2. **🌿 Create** a feature branch: `git checkout -b feature/amazing-feature`
-3. **💻 Make** your changes with proper tests
-4. **✅ Commit** with conventional commits: `git commit -m 'feat: add amazing feature'`
-5. **📤 Push** to your branch: `git push origin feature/amazing-feature`
-6. **🔄 Open** a Pull Request
+1. **Fork** the repository
+2. **Create** a feature branch: `git checkout -b feature/amazing-feature`
+3. **Make** your changes with proper tests
+4. **Commit** with conventional commits: `git commit -m 'feat: add amazing feature'`
+5. **Push** to your branch: `git push origin feature/amazing-feature`
+6. **Open** a Pull Request
 
-### 📋 Contribution Areas
+### Contribution Areas
 
 | Area | Skills Needed | Examples |
 |------|---------------|----------|
-| **🧬 Bioinformatics** | Python, Biology | New analysis algorithms, species databases |
-| **🎨 Frontend** | React, TypeScript | UI improvements, new visualizations |
-| **⚙️ Backend** | FastAPI, Python | API enhancements, performance optimization |
-| **🤖 ML/AI** | PyTorch, Transformers | Model improvements, new ML features |
-| **📚 Documentation** | Markdown, Writing | Tutorials, API docs, examples |
-| **🧪 Testing** | Jest, Pytest | Unit tests, integration tests |
+| **Bioinformatics** | Python, Biology | New analysis algorithms, species databases |
+| **Frontend** | React, TypeScript | UI improvements, new visualizations |
+| **Backend** | FastAPI, Python | API enhancements, performance optimization |
+| **ML/AI** | PyTorch, Transformers | Model improvements, new ML features |
+| **Documentation** | Markdown, Writing | Tutorials, API docs, examples |
+| **Testing** | Jest, Pytest | Unit tests, integration tests |
 
 ### 📖 Development Guidelines
 
